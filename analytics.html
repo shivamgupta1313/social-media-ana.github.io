@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Analytics — Authentic Reach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: {
+        "primary": "#004ac6", "primary-container": "#2563eb", "on-primary": "#ffffff",
+        "on-primary-container": "#eeefff", "surface": "#f8f9ff", "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#eff4ff", "surface-container": "#e5eeff",
+        "on-surface": "#0b1c30", "on-surface-variant": "#434655", "outline": "#737686",
+        "outline-variant": "#c3c6d7", "error": "#ba1a1a", "tertiary": "#006056", "tertiary-container": "#007b6e"
+      },
+      fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] }
+    }}};
+  </script>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/demo-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/analytics.js" defer></script>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased">
+  <div id="sidebar-overlay" class="sidebar-overlay fixed inset-0 bg-on-surface/30 z-40 hidden lg:hidden"></div>
+  <aside id="sidebar" class="sidebar-desktop fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between transition-transform">
+    <div class="flex flex-col">
+      <div class="h-16 px-6 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-on-primary-container text-[20px]">insights</span></div>
+        <div><span class="text-base font-semibold block leading-none">Authentic Reach</span><span class="text-[11px] text-on-surface-variant">Analyze. Compare. Grow.</span></div>
+        <button id="sidebar-close" class="ml-auto lg:hidden p-1"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="px-4 py-2"><span class="text-[11px] font-semibold uppercase tracking-wider text-on-surface-variant px-2">Platform Telemetry</span></div>
+      <nav class="flex flex-col gap-1 px-4">
+        <a data-nav="dashboard" href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">grid_view</span>Dashboard</a>
+        <a data-nav="add-data" href="add-data.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">add_chart</span>Add Social Media Data</a>
+        <a data-nav="upload-csv" href="upload-csv.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">upload_file</span>Upload CSV</a>
+        <a data-nav="analytics" href="analytics.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm"><span class="material-symbols-outlined text-[20px]">monitoring</span>Analytics</a>
+        <a data-nav="reports" href="reports.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">lab_profile</span>Reports</a>
+      </nav>
+    </div>
+    <div class="px-4 pb-6 flex flex-col gap-1">
+      <div class="h-px bg-surface-container my-2"></div>
+      <a data-nav="profile" href="profile.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">manage_accounts</span>Profile</a>
+      <button data-action="logout" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container text-left w-full"><span class="material-symbols-outlined text-[20px]">logout</span>Logout</button>
+    </div>
+  </aside>
+
+  <div class="lg:pl-72 min-h-screen flex flex-col">
+    <header class="sticky top-0 z-30 h-16 bg-surface-container-lowest/90 backdrop-blur border-b border-surface-container flex items-center justify-between px-4 sm:px-6">
+      <div class="flex items-center gap-3">
+        <button id="sidebar-toggle" class="lg:hidden p-2 rounded-lg hover:bg-surface-container"><span class="material-symbols-outlined">menu</span></button>
+        <h1 class="text-lg font-semibold">Analytics</h1>
+      </div>
+      <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-semibold" data-user-initials>DA</div>
+    </header>
+
+    <main class="flex-1 p-4 sm:p-6 space-y-6">
+      <section>
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-on-surface-variant mb-3">Overview</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+          <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container/60"><p class="text-[11px] uppercase tracking-wider text-on-surface-variant mb-1">Reach</p><p id="ov-reach" class="text-xl font-semibold tabular-nums">—</p></div>
+          <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container/60"><p class="text-[11px] uppercase tracking-wider text-on-surface-variant mb-1">Impressions</p><p id="ov-impressions" class="text-xl font-semibold tabular-nums">—</p></div>
+          <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container/60"><p class="text-[11px] uppercase tracking-wider text-on-surface-variant mb-1">Engagement</p><p id="ov-engagement" class="text-xl font-semibold tabular-nums">—</p></div>
+          <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container/60"><p class="text-[11px] uppercase tracking-wider text-on-surface-variant mb-1">Eng. Rate</p><p id="ov-eng-rate" class="text-xl font-semibold tabular-nums">—</p></div>
+          <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container/60"><p class="text-[11px] uppercase tracking-wider text-on-surface-variant mb-1">Clicks</p><p id="ov-clicks" class="text-xl font-semibold tabular-nums">—</p></div>
+          <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container/60"><p class="text-[11px] uppercase tracking-wider text-on-surface-variant mb-1">Conversions</p><p id="ov-conversions" class="text-xl font-semibold tabular-nums">—</p></div>
+        </div>
+      </section>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <section class="bg-surface-container-lowest rounded-xl border border-surface-container/60 p-4">
+          <h2 class="text-sm font-semibold mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-tertiary"></span> Organic Analysis</h2>
+          <div class="grid grid-cols-3 gap-3 mb-4">
+            <div><p class="text-[11px] uppercase text-on-surface-variant">Reach</p><p id="org-reach" class="text-lg font-semibold tabular-nums">—</p></div>
+            <div><p class="text-[11px] uppercase text-on-surface-variant">Engagement</p><p id="org-engagement" class="text-lg font-semibold tabular-nums">—</p></div>
+            <div><p class="text-[11px] uppercase text-on-surface-variant">Eng. Rate</p><p id="org-eng-rate" class="text-lg font-semibold tabular-nums">—</p></div>
+          </div>
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-2">Best Organic Posts</h3>
+          <div class="table-responsive">
+            <table class="w-full text-left"><thead class="bg-surface-container-low"><tr>
+              <th class="py-2 px-3 text-[11px] uppercase text-on-surface-variant">Post</th>
+              <th class="py-2 px-3 text-[11px] uppercase text-on-surface-variant">Platform</th>
+              <th class="py-2 px-3 text-[11px] uppercase text-on-surface-variant text-right">Reach</th>
+              <th class="py-2 px-3 text-[11px] uppercase text-on-surface-variant text-right">Rate</th>
+            </tr></thead><tbody id="best-organic-body"></tbody></table>
+          </div>
+        </section>
+
+        <section class="bg-surface-container-lowest rounded-xl border border-surface-container/60 p-4">
+          <h2 class="text-sm font-semibold mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary-container"></span> Paid Analysis</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div><p class="text-[11px] uppercase text-on-surface-variant">Reach</p><p id="paid-reach" class="text-lg font-semibold tabular-nums">—</p></div>
+            <div><p class="text-[11px] uppercase text-on-surface-variant">Engagement</p><p id="paid-engagement" class="text-lg font-semibold tabular-nums">—</p></div>
+            <div><p class="text-[11px] uppercase text-on-surface-variant">Ad Spend</p><p id="paid-spend" class="text-lg font-semibold tabular-nums">—</p></div>
+            <div><p class="text-[11px] uppercase text-on-surface-variant">Cost / Click</p><p id="paid-cpc" class="text-lg font-semibold tabular-nums">—</p></div>
+            <div><p class="text-[11px] uppercase text-on-surface-variant">Conv. Rate</p><p id="paid-cvr" class="text-lg font-semibold tabular-nums">—</p></div>
+          </div>
+        </section>
+      </div>
+
+      <section class="bg-surface-container-lowest rounded-xl border border-surface-container/60 p-4">
+        <h2 class="text-sm font-semibold mb-3">Organic vs Paid Comparison</h2>
+        <div class="chart-container h-72"><canvas id="chart-comparison"></canvas></div>
+      </section>
+
+      <section class="bg-surface-container-lowest rounded-xl border border-surface-container/60 overflow-hidden">
+        <div class="px-4 py-3 border-b border-surface-container text-sm font-semibold">Campaign Rankings</div>
+        <div class="table-responsive">
+          <table class="w-full text-left">
+            <thead class="bg-surface-container-low"><tr>
+              <th class="py-3 px-4 text-[11px] uppercase text-on-surface-variant">Campaign</th>
+              <th class="py-3 px-4 text-[11px] uppercase text-on-surface-variant text-right">Reach</th>
+              <th class="py-3 px-4 text-[11px] uppercase text-on-surface-variant text-right">Engagement</th>
+              <th class="py-3 px-4 text-[11px] uppercase text-on-surface-variant text-right">Spend</th>
+            </tr></thead>
+            <tbody id="campaign-rank-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

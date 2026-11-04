@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload CSV — Authentic Reach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: {
+        "primary": "#004ac6", "primary-container": "#2563eb", "on-primary": "#ffffff",
+        "on-primary-container": "#eeefff", "surface": "#f8f9ff", "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#eff4ff", "surface-container": "#e5eeff",
+        "on-surface": "#0b1c30", "on-surface-variant": "#434655", "outline": "#737686",
+        "outline-variant": "#c3c6d7", "error": "#ba1a1a", "tertiary": "#006056"
+      },
+      fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] }
+    }}};
+  </script>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/demo-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/upload-csv.js" defer></script>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased">
+  <div id="sidebar-overlay" class="sidebar-overlay fixed inset-0 bg-on-surface/30 z-40 hidden lg:hidden"></div>
+  <aside id="sidebar" class="sidebar-desktop fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between transition-transform">
+    <div class="flex flex-col">
+      <div class="h-16 px-6 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-on-primary-container text-[20px]">insights</span></div>
+        <div><span class="text-base font-semibold block leading-none">Authentic Reach</span><span class="text-[11px] text-on-surface-variant">Analyze. Compare. Grow.</span></div>
+        <button id="sidebar-close" class="ml-auto lg:hidden p-1"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="px-4 py-2"><span class="text-[11px] font-semibold uppercase tracking-wider text-on-surface-variant px-2">Platform Telemetry</span></div>
+      <nav class="flex flex-col gap-1 px-4">
+        <a data-nav="dashboard" href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">grid_view</span>Dashboard</a>
+        <a data-nav="add-data" href="add-data.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">add_chart</span>Add Social Media Data</a>
+        <a data-nav="upload-csv" href="upload-csv.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm"><span class="material-symbols-outlined text-[20px]">upload_file</span>Upload CSV</a>
+        <a data-nav="analytics" href="analytics.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">monitoring</span>Analytics</a>
+        <a data-nav="reports" href="reports.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">lab_profile</span>Reports</a>
+      </nav>
+    </div>
+    <div class="px-4 pb-6 flex flex-col gap-1">
+      <div class="h-px bg-surface-container my-2"></div>
+      <a data-nav="profile" href="profile.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">manage_accounts</span>Profile</a>
+      <button data-action="logout" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container text-left w-full"><span class="material-symbols-outlined text-[20px]">logout</span>Logout</button>
+    </div>
+  </aside>
+
+  <div class="lg:pl-72 min-h-screen flex flex-col">
+    <header class="sticky top-0 z-30 h-16 bg-surface-container-lowest/90 backdrop-blur border-b border-surface-container flex items-center justify-between px-4 sm:px-6">
+      <div class="flex items-center gap-3">
+        <button id="sidebar-toggle" class="lg:hidden p-2 rounded-lg hover:bg-surface-container"><span class="material-symbols-outlined">menu</span></button>
+        <h1 class="text-lg font-semibold">Upload CSV</h1>
+      </div>
+      <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-semibold" data-user-initials>DA</div>
+    </header>
+
+    <main class="flex-1 p-4 sm:p-6 space-y-6 max-w-4xl mx-auto w-full">
+      <div class="flex flex-wrap gap-3">
+        <button id="btn-sample" class="px-4 py-2 rounded-lg border border-outline-variant text-sm font-medium hover:bg-surface-container-low flex items-center gap-2">
+          <span class="material-symbols-outlined text-[18px]">download</span> Download Sample CSV
+        </button>
+      </div>
+
+      <div id="drop-zone" class="drop-zone border-2 border-dashed border-outline-variant rounded-xl p-10 text-center bg-surface-container-lowest transition-colors">
+        <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-3">cloud_upload</span>
+        <p class="text-sm font-medium text-on-surface mb-1">Drag & drop your CSV here</p>
+        <p class="text-xs text-on-surface-variant mb-4">or</p>
+        <button type="button" id="btn-browse" class="px-4 py-2 rounded-lg bg-primary-container text-on-primary-container text-sm font-semibold">Browse Files</button>
+        <input type="file" id="file-input" accept=".csv,text/csv" class="hidden"/>
+        <p id="file-info" class="mt-4 text-sm text-on-surface-variant"></p>
+        <p class="mt-2 text-xs text-on-surface-variant">Expected columns: platform, post_name, campaign_name, date, content_type, engagement_type, reach, impressions, likes, comments, shares, clicks, conversions, ad_spend</p>
+      </div>
+
+      <div id="progress-wrap" class="hidden">
+        <div class="h-2 bg-surface-container rounded-full overflow-hidden">
+          <div id="progress-bar" class="h-full bg-primary-container transition-all duration-300" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div id="preview-section" class="hidden space-y-4">
+        <div class="flex flex-wrap gap-4 text-sm">
+          <span class="px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 font-medium">Valid: <span id="valid-count">0</span></span>
+          <span class="px-3 py-1.5 rounded-full bg-red-50 text-red-800 font-medium">Invalid: <span id="invalid-count">0</span></span>
+        </div>
+        <ul id="error-list" class="space-y-1 max-h-32 overflow-y-auto"></ul>
+        <div class="bg-surface-container-lowest rounded-xl border border-surface-container overflow-hidden">
+          <div class="px-4 py-3 border-b border-surface-container text-sm font-semibold">Preview (first 10 valid rows)</div>
+          <div class="table-responsive">
+            <table class="w-full text-left">
+              <thead class="bg-surface-container-low">
+                <tr>
+                  <th class="py-2 px-3 text-[11px] uppercase tracking-wider text-on-surface-variant">Platform</th>
+                  <th class="py-2 px-3 text-[11px] uppercase tracking-wider text-on-surface-variant">Post</th>
+                  <th class="py-2 px-3 text-[11px] uppercase tracking-wider text-on-surface-variant">Type</th>
+                  <th class="py-2 px-3 text-[11px] uppercase tracking-wider text-on-surface-variant text-right">Reach</th>
+                  <th class="py-2 px-3 text-[11px] uppercase tracking-wider text-on-surface-variant text-right">Impressions</th>
+                </tr>
+              </thead>
+              <tbody id="preview-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <button id="btn-import" disabled class="px-5 py-2.5 rounded-lg bg-primary-container text-on-primary-container text-sm font-semibold disabled:opacity-40 hover:bg-primary transition-colors">
+          Import Data
+        </button>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register — Authentic Reach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: {
+        primary: "#004ac6", "primary-container": "#2563eb", "on-primary": "#ffffff",
+        "on-primary-container": "#eeefff", surface: "#f8f9ff", "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#eff4ff", "surface-container": "#e5eeff",
+        "on-surface": "#0b1c30", "on-surface-variant": "#434655", outline: "#737686",
+        "outline-variant": "#c3c6d7", error: "#ba1a1a", tertiary: "#006056"
+      },
+      fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] }
+    }}};
+  </script>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js" defer></script>
+</head>
+<body class="auth-page font-sans text-on-surface antialiased">
+  <div class="auth-card">
+    <div class="flex items-center gap-3 mb-8">
+      <div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center">
+        <span class="material-symbols-outlined text-on-primary-container text-[22px]">insights</span>
+      </div>
+      <div>
+        <h1 class="text-lg font-semibold text-on-surface leading-tight">Authentic Reach</h1>
+        <p class="text-xs text-on-surface-variant">Analyze. Compare. Grow.</p>
+      </div>
+    </div>
+    <h2 class="text-xl font-semibold text-on-surface mb-1">Create your account</h2>
+    <p class="text-sm text-on-surface-variant mb-6">Start tracking organic and paid engagement.</p>
+
+    <form id="register-form" class="space-y-4" novalidate>
+      <div>
+        <label for="full_name" class="block text-sm font-medium text-on-surface mb-1.5">Full name</label>
+        <input type="text" id="full_name" name="full_name" required autocomplete="name"
+          class="w-full px-3 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest text-sm text-on-surface"
+          placeholder="Alex Morgan"/>
+      </div>
+      <div>
+        <label for="email" class="block text-sm font-medium text-on-surface mb-1.5">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email"
+          class="w-full px-3 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest text-sm text-on-surface"
+          placeholder="you@company.com"/>
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium text-on-surface mb-1.5">Password</label>
+        <div class="relative">
+          <input type="password" id="password" name="password" required minlength="8" autocomplete="new-password"
+            class="w-full px-3 py-2.5 pr-10 rounded-lg border border-outline-variant bg-surface-container-lowest text-sm text-on-surface"
+            placeholder="Min. 8 characters"/>
+          <button type="button" data-toggle-password="password" class="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-on-surface-variant" aria-label="Show password">
+            <span class="material-symbols-outlined text-[20px]">visibility</span>
+          </button>
+        </div>
+      </div>
+      <div>
+        <label for="confirm_password" class="block text-sm font-medium text-on-surface mb-1.5">Confirm password</label>
+        <input type="password" id="confirm_password" name="confirm_password" required minlength="8" autocomplete="new-password"
+          class="w-full px-3 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest text-sm text-on-surface"
+          placeholder="Repeat password"/>
+      </div>
+      <button type="submit" class="w-full py-2.5 rounded-lg bg-primary-container text-on-primary-container text-sm font-semibold hover:bg-primary transition-colors">
+        Create Account
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-on-surface-variant">
+      Already have an account?
+      <a href="login.html" class="text-primary-container font-semibold hover:underline">Sign in</a>
+    </p>
+  </div>
+</body>
+</html>

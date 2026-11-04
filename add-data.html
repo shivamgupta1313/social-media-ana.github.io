@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Social Media Data — Authentic Reach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: {
+        "primary": "#004ac6", "primary-container": "#2563eb", "on-primary": "#ffffff",
+        "on-primary-container": "#eeefff", "surface": "#f8f9ff", "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#eff4ff", "surface-container": "#e5eeff",
+        "on-surface": "#0b1c30", "on-surface-variant": "#434655", "outline": "#737686",
+        "outline-variant": "#c3c6d7", "error": "#ba1a1a", "tertiary": "#006056", "tertiary-container": "#007b6e"
+      },
+      fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] }
+    }}};
+  </script>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/demo-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/add-data.js" defer></script>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased">
+  <div id="sidebar-overlay" class="sidebar-overlay fixed inset-0 bg-on-surface/30 z-40 hidden lg:hidden"></div>
+  <aside id="sidebar" class="sidebar-desktop fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between transition-transform duration-200">
+    <div class="flex flex-col">
+      <div class="h-16 px-6 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-on-primary-container text-[20px]">insights</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <span class="text-base font-semibold text-on-surface leading-none truncate">Authentic Reach</span>
+          <span class="text-[11px] text-on-surface-variant leading-tight mt-0.5">Analyze. Compare. Grow.</span>
+        </div>
+        <button id="sidebar-close" class="ml-auto lg:hidden p-1 text-on-surface-variant"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="px-4 py-2"><span class="text-[11px] font-semibold uppercase tracking-wider text-on-surface-variant px-2">Platform Telemetry</span></div>
+      <nav class="flex flex-col gap-1 px-4">
+        <a data-nav="dashboard" href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container transition-all"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Dashboard</span></a>
+        <a data-nav="add-data" href="add-data.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm"><span class="material-symbols-outlined text-[20px]">add_chart</span><span>Add Social Media Data</span></a>
+        <a data-nav="upload-csv" href="upload-csv.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container transition-all"><span class="material-symbols-outlined text-[20px]">upload_file</span><span>Upload CSV</span></a>
+        <a data-nav="analytics" href="analytics.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container transition-all"><span class="material-symbols-outlined text-[20px]">monitoring</span><span>Analytics</span></a>
+        <a data-nav="reports" href="reports.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container transition-all"><span class="material-symbols-outlined text-[20px]">lab_profile</span><span>Reports</span></a>
+      </nav>
+    </div>
+    <div class="flex flex-col gap-1 px-4 pb-6">
+      <div class="h-px bg-surface-container my-2"></div>
+      <a data-nav="profile" href="profile.html" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container transition-all"><span class="material-symbols-outlined text-[20px]">manage_accounts</span><span>Profile</span></a>
+      <button data-action="logout" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-sm text-on-surface-variant hover:bg-surface-container transition-all text-left w-full"><span class="material-symbols-outlined text-[20px]">logout</span><span>Logout</span></button>
+    </div>
+  </aside>
+
+  <div class="lg:pl-72 min-h-screen flex flex-col">
+    <header class="sticky top-0 z-30 h-16 bg-surface-container-lowest/90 backdrop-blur border-b border-surface-container flex items-center justify-between px-4 sm:px-6">
+      <div class="flex items-center gap-3">
+        <button id="sidebar-toggle" class="lg:hidden p-2 rounded-lg text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined">menu</span></button>
+        <h1 class="text-lg font-semibold">Add Social Media Data</h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-semibold" data-user-initials>DA</div>
+      </div>
+    </header>
+
+    <main class="flex-1 p-4 sm:p-6">
+      <div class="max-w-3xl mx-auto bg-surface-container-lowest rounded-xl border border-surface-container/60 shadow-sm p-6">
+        <p class="text-sm text-on-surface-variant mb-6">Enter a single post or campaign performance record. Required fields are marked.</p>
+        <form id="add-data-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4" novalidate>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="platform">Platform *</label>
+            <select id="platform" name="platform" required class="w-full px-3 py-2.5 rounded-lg border border-outline-variant bg-white text-sm">
+              <option value="">Select platform</option>
+              <option>Instagram</option><option>Facebook</option><option>YouTube</option><option>LinkedIn</option><option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="post_name">Post Name *</label>
+            <input id="post_name" name="post_name" required class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm" placeholder="e.g. Summer Collection Reveal"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="campaign_name">Campaign Name</label>
+            <input id="campaign_name" name="campaign_name" class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm" placeholder="Optional"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="date">Date *</label>
+            <input type="date" id="date" name="date" required class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="content_type">Content Type *</label>
+            <select id="content_type" name="content_type" required class="w-full px-3 py-2.5 rounded-lg border border-outline-variant bg-white text-sm">
+              <option value="">Select type</option>
+              <option>Image</option><option>Video</option><option>Reel</option><option>Story</option><option>Text</option><option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="engagement_type">Engagement Type *</label>
+            <select id="engagement_type" name="engagement_type" required class="w-full px-3 py-2.5 rounded-lg border border-outline-variant bg-white text-sm">
+              <option value="Organic">Organic</option>
+              <option value="Paid">Paid</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="reach">Reach *</label>
+            <input type="number" min="0" id="reach" name="reach" required class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm" placeholder="0"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="impressions">Impressions *</label>
+            <input type="number" min="0" id="impressions" name="impressions" required class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm" placeholder="0"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="likes">Likes</label>
+            <input type="number" min="0" id="likes" name="likes" value="0" class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="comments">Comments</label>
+            <input type="number" min="0" id="comments" name="comments" value="0" class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="shares">Shares</label>
+            <input type="number" min="0" id="shares" name="shares" value="0" class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="clicks">Clicks</label>
+            <input type="number" min="0" id="clicks" name="clicks" value="0" class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" for="conversions">Conversions</label>
+            <input type="number" min="0" id="conversions" name="conversions" value="0" class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm"/>
+          </div>
+          <div id="ad-spend-group">
+            <label class="block text-sm font-medium mb-1.5" for="ad_spend">Advertising Spend</label>
+            <input type="number" min="0" step="0.01" id="ad_spend" name="ad_spend" value="0" class="w-full px-3 py-2.5 rounded-lg border border-outline-variant text-sm"/>
+            <p class="text-xs text-on-surface-variant mt-1">Required for Paid records; ignored for Organic.</p>
+          </div>
+          <div class="sm:col-span-2 flex flex-wrap gap-3 pt-2">
+            <button type="submit" class="px-5 py-2.5 rounded-lg bg-primary-container text-on-primary-container text-sm font-semibold hover:bg-primary transition-colors">Save Data</button>
+            <button type="button" id="btn-reset" class="px-5 py-2.5 rounded-lg border border-outline-variant text-sm font-medium hover:bg-surface-container-low">Reset Form</button>
+            <button type="button" id="btn-cancel" class="px-5 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant hover:text-on-surface">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
